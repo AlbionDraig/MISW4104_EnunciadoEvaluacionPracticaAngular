@@ -74,13 +74,14 @@ describe('BookListComponent', () => {
     });
   });
 
-  it('should have 10 <tr> elements and 4 <td> elements in each row', () => {
-    const trElements = fixture.debugElement.queryAll(By.css('tbody tr'));
-    expect(trElements.length).toBe(10);
+  it('should display correct counts for each brand', () => {
+    const aElements = fixture.debugElement.queryAll(By.css('a'));
+    const expectedCounts = component.getCountBrands('marca');
 
-    trElements.forEach((row) => {
-      const tdElements = row.queryAll(By.css('td'));
-      expect(tdElements.length).toBe(4);
+    aElements.forEach((a, index) => {
+      const brandElement = a.nativeElement.textContent;
+      const expectedBrand = ` Total ${expectedCounts[index].key}: ${expectedCounts[index].value} `;
+      expect(brandElement).toEqual(expectedBrand);
     });
   });
 
