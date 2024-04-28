@@ -9,7 +9,6 @@ import { VehicleService } from '../services/vehicle.service';
 })
 export class VehiclesComponent implements OnInit {
   vehicles: Array<Vehicle> = [];
-  countMap = new Map<string, number>();
 
   constructor(private vehicleService: VehicleService) {}
 
@@ -19,23 +18,26 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-  getCountBrands() {
+  getCountBrands(property: keyof Vehicle): { key: string; value: number }[] {
+    const countMap = new Map<string, number>();
+  
     this.vehicles.forEach((vehicle) => {
-      const brand = vehicle.marca;
-      if (this.countMap.has(brand)) {
-        this.countMap.set(brand, this.countMap.get(brand)! + 1);
+      const valor = String(vehicle[property]);
+      if (countMap.has(valor)) {
+        countMap.set(valor, countMap.get(valor)! + 1);
       } else {
-        this.countMap.set(brand, 1);
+        countMap.set(valor, 1);
       }
     });
-
-    const brandsCount: Array<{ Marca: string; Cantidad: number }> = [];
-    this.countMap.forEach((count, brand) => {
-      brandsCount.push({ Marca: brand, Cantidad: count });
+  
+    const countArray: { key: string; value: number }[] = [];
+    countMap.forEach((value, key) => {
+      countArray.push({ key: key, value: value });
     });
-
-    return brandsCount;
+  
+    return countArray;
   }
+  
 
   ngOnInit() {
     this.getVehicles();

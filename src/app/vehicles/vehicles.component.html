@@ -27,8 +27,8 @@
       </tbody>
     </table>
 
-    <a *ngFor="let brand of getCountBrands()">
-      Total {{ brand.Marca }}: {{ brand.Cantidad }}
+    <a *ngFor="let brand of getCountBrands('marca')">
+      Total {{ brand.key }}: {{ brand.value }}
       <br />
     </a>
   </div>
